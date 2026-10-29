@@ -134,3 +134,54 @@
     font-size: var(--font-size-sm);
   }
 }
+/* ---------- E-book shortcut on the cover ---------- */
+
+.home__ebook-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-pill);
+  background-color: rgba(246, 249, 228, 0.72);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-standard);
+}
+
+.home__ebook-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: 0 0 auto;
+}
+
+.home__ebook-button:hover {
+  background-color: var(--color-cream);
+  transform: translateY(-2px);
+}
+
+.home__ebook-button:active {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__ebook-button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .home__ebook-button {
+    font-size: var(--font-size-xs);
+    padding: var(--space-2) var(--space-4);
+  }
+}

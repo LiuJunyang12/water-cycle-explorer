@@ -47,7 +47,7 @@ export default function App() {
 
   const renderPage = () => {
     if (page.kind === 'home') {
-      return <HomePage onStart={goToMap} />;
+      return <HomePage onStart={goToMap} onOpenEbook={() => setActiveSection('ebook')} />;
     }
 
     // The award ceremony: Wally hands over the certificate after station 6.

@@ -70,6 +70,15 @@ describe('App navigation shell', () => {
     ).toBeInTheDocument();
   });
 
+  test('the cover shortcut opens the e-book without using the menu', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Baca e-buku' }));
+
+    expect(screen.getByRole('dialog', { name: 'OFFLINE E-BOOK' })).toBeInTheDocument();
+  });
+
   test('the e-book dialog offers the supplied PDF for reading and download', async () => {
     const user = userEvent.setup();
     render(<App />);
