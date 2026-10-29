@@ -1,3 +1,27 @@
+## 0) 先把代码推上 GitHub（只需做一次）
+
+本机已经初始化好仓库、提交好全部内容（分支 `main`），并把远端 `origin` 指向你的仓库。**推送这一步必须在你自己电脑的窗口里做**（agent 的沙箱里没有你的 GitHub 登录凭证，无法代你登录）。
+
+任选一种：
+
+**A. 双击脚本（最快）**
+
+```
+D:\Teknologi Web Site\water-cycle-explorer\tools\push-to-github.cmd
+```
+
+会弹出 Git 凭据窗口 → 用 `LiuJunyang12` 登录 → 看到 `PUSH DONE` 就成了。
+
+**B. 自己的 PowerShell 窗口**
+
+```powershell
+cd "D:\Teknologi Web Site\water-cycle-explorer"
+git push -u origin main
+```
+
+**C. GitHub Desktop**：`File → Add local repository` 选这个文件夹 → 右上角 `Publish branch`。
+
+推送完成后打开 <https://github.com/LiuJunyang12/water-cycle-explorer> 确认能看到 `src/`、`public/`、`package.json`，并且**看不到** `.env` 和 `design-assets/`（这两个是故意不提交的）。
 # 发布到 GitHub → Vercel（公开网站）
 
 这条路线适合这个项目：纯静态 Vite 站点，没有任何服务器代码，Vercel 免费额度足够。
