@@ -22,15 +22,20 @@
 
 ## 1. 把项目放进 Git 仓库
 
+> **本机已经初始化好了**（助手代做）：`git init -b main` 已执行，首次提交
+> `1cfaae3` 已创建，`159 个文件 / 21.9 MB`，`.gitignore` 与 `.gitattributes` 都在。
+> 所以你只需要「建空仓库 → 加远程 → push」，下面的 `git init / add / commit` 三步
+> 已经完成，留着只是让你知道仓库是怎么来的（想重来一次就照抄）。
+
 ### 方案 A：命令行（推荐，最可控）
 
 ```bash
 cd "D:\Teknologi Web Site\water-cycle-explorer"
 
-git init
+# 这三步助手已经做过了（保留作参考）
+git init -b main
 git add .
-git status          # 确认列表里没有 node_modules / dist / .env
-git commit -m "Water Cycle Explorer: stesen 1-6, sijil, laporan Google Drive"
+git commit -m "Water Cycle Explorer: 6 stesen, sijil, laporan Google Drive"
 ```
 
 然后在 GitHub 网页点 **New repository**：
@@ -39,13 +44,19 @@ git commit -m "Water Cycle Explorer: stesen 1-6, sijil, laporan Google Drive"
 - 可见性：**Public**（Vercel 免费版要能读到；Private 也行，但要在 Vercel 授权访问）
 - 不要勾选 “Add a README file”（本地已经有内容，勾了会冲突）
 
-创建后 GitHub 会显示仓库地址，回到命令行：
+创建后 GitHub 会显示仓库地址，回到命令行**只跑这三行**：
 
 ```bash
-git branch -M main
+cd "D:\Teknologi Web Site\water-cycle-explorer"
 git remote add origin https://github.com/<你的用户名>/water-cycle-explorer.git
 git push -u origin main
 ```
+
+> 如果建仓库时手滑勾了 README / .gitignore / license，push 会被拒绝
+> （`rejected - fetch first`）。先跑 `git pull --rebase origin main`，再 `git push -u origin main`。
+>
+> 首次 push 通常弹出 GitHub 登录窗口（Git Credential Manager），浏览器里授权一次即可；
+> 没有弹窗就按下面的 Personal Access Token 方式做。
 
 第一次 push 会要求登录：用 **Personal Access Token** 当密码（GitHub → Settings →
 Developer settings → Personal access tokens → Fine-grained tokens → 勾 `Contents: Read and write`）。
