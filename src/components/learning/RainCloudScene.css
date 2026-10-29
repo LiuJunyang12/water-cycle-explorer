@@ -1,0 +1,482 @@
+/* ============================================================
+   Station 4 — rain gathering scene
+   Sky + cloud + collector droplet + floating droplets + rainwater.
+   Everything is CSS drawn so the scene works before artwork exists.
+   ============================================================ */
+
+.rain-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #bfe8fb 0%, #d9f1fb 46%, #eef8ee 100%);
+  isolation: isolate;
+  touch-action: none;
+}
+
+.rain-scene__sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.rain-scene__sun {
+  position: absolute;
+  top: 6%;
+  right: 7%;
+  width: clamp(48px, 8vmin, 92px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #ffe9a3 0%, var(--color-sun) 58%, #f5bf4c 100%);
+  box-shadow: 0 0 42px rgba(247, 201, 72, 0.55);
+  opacity: 0.92;
+}
+
+.rain-scene__hill {
+  position: absolute;
+  bottom: 18%;
+  border-radius: 50% 50% 0 0 / 70% 70% 0 0;
+}
+
+.rain-scene__hill--back {
+  left: -6%;
+  width: 64%;
+  height: 30%;
+  background: linear-gradient(180deg, #a8d7a5 0%, #8ec78b 100%);
+  opacity: 0.75;
+}
+
+.rain-scene__hill--front {
+  right: -8%;
+  width: 58%;
+  height: 24%;
+  background: linear-gradient(180deg, #9ed19b 0%, #7fc07f 100%);
+  opacity: 0.85;
+}
+
+/* ---------------- cloud ---------------- */
+
+.rain-cloud {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  z-index: 3;
+  width: 40%;
+  min-width: 190px;
+  max-width: 420px;
+  height: 15%;
+  min-height: 74px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: rain-cloud-drift 9s ease-in-out infinite;
+}
+
+.rain-cloud__puff {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, #ffffff 0%, #f2f7fb 62%, #dde8f0 100%);
+  filter: brightness(calc(1 - var(--cloud-darkness, 0) * 0.62))
+    saturate(calc(1 - var(--cloud-darkness, 0) * 0.35));
+  transition: filter var(--duration-base) var(--ease-standard);
+  box-shadow: inset -6px -10px 18px rgba(120, 150, 175, 0.22);
+}
+
+.rain-cloud__puff--left {
+  left: 2%;
+  bottom: 0;
+  width: 46%;
+  height: 92%;
+}
+
+.rain-cloud__puff--middle {
+  left: 24%;
+  bottom: 12%;
+  width: 54%;
+  height: 100%;
+}
+
+.rain-cloud__puff--right {
+  right: 0;
+  bottom: 0;
+  width: 42%;
+  height: 84%;
+}
+
+/* ---------------- collector droplet ---------------- */
+
+.rain-collector {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  z-index: 4;
+  width: clamp(66px, 11vmin, 128px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 10px 18px rgba(43, 131, 180, 0.32));
+}
+
+.rain-collector__drop {
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background:
+    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 42%),
+    radial-gradient(circle at 60% 72%, #6cc6ee 0%, var(--color-water) 48%, var(--color-water-deep) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  transform: scale(calc(0.66 + var(--cloud-darkness, 0) * 0.62));
+  transition: transform var(--duration-slow) var(--ease-standard),
+    filter var(--duration-slow) var(--ease-standard);
+  filter: brightness(calc(1 - var(--cloud-darkness, 0) * 0.16));
+}
+
+.rain-collector__count {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+/* ---------------- floating droplets ---------------- */
+
+.rain-droplet {
+  position: absolute;
+  z-index: 5;
+  width: clamp(26px, 4.2vmin, 46px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 46%),
+    radial-gradient(circle at 62% 74%, #86d8f5 0%, var(--color-water) 52%, var(--color-water-deep) 100%);
+  box-shadow: 0 6px 14px rgba(43, 131, 180, 0.28);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  transition: transform var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+  animation: rain-droplet-bob 3.4s ease-in-out infinite;
+}
+
+.rain-droplet:hover,
+.rain-droplet:focus-visible {
+  transform: translate(-50%, -50%) scale(1.14);
+  box-shadow: 0 10px 20px rgba(43, 131, 180, 0.36);
+}
+
+.rain-droplet:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.rain-droplet--dragging {
+  z-index: 8;
+  cursor: grabbing;
+  animation: none;
+  transform: translate(-50%, -50%) scale(1.24);
+  box-shadow: 0 14px 26px rgba(43, 131, 180, 0.42);
+}
+
+.rain-droplet__shine {
+  position: absolute;
+  top: 22%;
+  left: 26%;
+  width: 30%;
+  height: 22%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------------- water bodies ---------------- */
+
+.rain-scene__water {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  height: 24%;
+  pointer-events: none;
+}
+
+.rain-water {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(180deg, #7ecbea 0%, var(--color-water) 45%, var(--color-water-deep) 100%);
+  box-shadow: inset 0 6px 14px rgba(255, 255, 255, 0.3);
+}
+
+.rain-water--river {
+  left: 0;
+  width: 34%;
+  height: 100%;
+  border-radius: 0 46% 0 0 / 0 34% 0 0;
+  transform: skewX(-6deg);
+  transform-origin: left bottom;
+}
+
+.rain-water--lake {
+  left: 36%;
+  width: 28%;
+  height: 78%;
+  border-radius: 46% 46% 0 0 / 40% 40% 0 0;
+  background: linear-gradient(180deg, #9ad8f0 0%, var(--color-water) 55%, var(--color-water-deep) 100%);
+}
+
+.rain-water--sea {
+  right: 0;
+  width: 36%;
+  height: 100%;
+  border-radius: 34% 0 0 0 / 26% 0 0 0;
+}
+
+.rain-water__label {
+  position: absolute;
+  bottom: 6px;
+  z-index: 3;
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f4fbff;
+  text-shadow: 0 1px 3px rgba(20, 60, 85, 0.55);
+}
+
+.rain-water__label--river {
+  left: 8%;
+}
+
+.rain-water__label--lake {
+  left: 44%;
+}
+
+.rain-water__label--sea {
+  right: 10%;
+}
+
+/* ---------------- rain ---------------- */
+
+.rain-scene__rain {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rain-drop {
+  position: absolute;
+  top: -6%;
+  width: 3.5px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, #8fd4ef 45%, var(--color-water) 100%);
+  opacity: 0.9;
+  animation-name: rain-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.rain-scene__splashes {
+  position: absolute;
+  inset: auto 0 6% 0;
+  z-index: 6;
+  height: 16%;
+  pointer-events: none;
+}
+
+.rain-splash {
+  position: absolute;
+  bottom: 0;
+  width: 46px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  opacity: 0;
+  animation: rain-splash 1.6s ease-out infinite;
+}
+
+.rain-splash--river {
+  left: 14%;
+}
+
+.rain-splash--lake {
+  left: 46%;
+  animation-delay: 0.4s;
+}
+
+.rain-splash--sea {
+  right: 14%;
+  animation-delay: 0.8s;
+}
+
+/* ---------------- heavy cloud: wobble ---------------- */
+
+.rain-scene--heavy .rain-cloud {
+  animation: rain-cloud-wobble 1.9s ease-in-out infinite;
+}
+
+.rain-scene--heavy .rain-collector__drop {
+  animation: rain-collector-pulse 1.9s ease-in-out infinite;
+}
+
+@keyframes rain-cloud-drift {
+  0%,
+  100% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(calc(-50% + 8px), -50%);
+  }
+}
+
+@keyframes rain-cloud-wobble {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-0.6deg);
+  }
+  25% {
+    transform: translate(calc(-50% + 3px), calc(-50% - 5px)) rotate(0.6deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  75% {
+    transform: translate(calc(-50% - 3px), calc(-50% - 3px)) rotate(-0.6deg);
+  }
+}
+
+@keyframes rain-collector-pulse {
+  0%,
+  100% {
+    filter: brightness(calc(1 - var(--cloud-darkness, 0) * 0.16));
+  }
+  50% {
+    filter: brightness(calc(1.06 - var(--cloud-darkness, 0) * 0.16));
+  }
+}
+
+@keyframes rain-droplet-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(2400%);
+    opacity: 0.15;
+  }
+}
+
+@keyframes rain-splash {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .rain-scene {
+    min-height: 240px;
+  }
+
+  .rain-cloud {
+    width: 52%;
+    min-width: 150px;
+  }
+
+  .rain-water__label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain-scene,
+  .rain-scene * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ---------------- optional hand-drawn artwork ---------------- */
+
+.rain-scene__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* The painted backdrop already contains the sun, the hills and the water. */
+.rain-scene--art-bg .rain-scene__sun,
+.rain-scene--art-bg .rain-scene__hill,
+.rain-scene--art-bg .rain-scene__water {
+  visibility: hidden;
+}
+
+.rain-droplet__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.rain-scene--drop-art .rain-droplet {
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+}
+
+.rain-scene--drop-art .rain-droplet__shine {
+  display: none;
+}
+
+.rain-collector__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.rain-scene--collector-art .rain-collector__drop {
+  display: none;
+}

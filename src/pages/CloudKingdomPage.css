@@ -1,0 +1,419 @@
+.quest-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--space-2) var(--space-4) var(--space-3);
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, #dff3fb 0%, #f2f8e6 60%, #f6f9e4 100%);
+}
+
+.quest-page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-inline: 76px;
+}
+
+.quest-page__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.quest-page__eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--color-primary-darker);
+}
+
+.quest-page__title {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+.quest-page__level {
+  font-size: clamp(0.68rem, 1.3vw, 0.8rem);
+  color: var(--color-text-soft);
+}
+
+.quest-page__back {
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.72rem;
+}
+
+/* ---------- HUD + controls ---------- */
+
+.quest-hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: rgba(253, 254, 247, 0.94);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.quest-hud__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.quest-hud__counter {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.quest-hud__counter strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-primary-darker);
+}
+
+.quest-hud__respawns {
+  font-size: 0.62rem;
+  color: var(--color-text-soft);
+}
+
+.quest-controls {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.quest-controls__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: 1.15rem;
+  font-weight: 800;
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.quest-controls__button:hover {
+  background-color: rgba(103, 185, 113, 0.14);
+}
+
+.quest-controls__button:active {
+  transform: translateY(1px);
+  background-color: rgba(103, 185, 113, 0.24);
+}
+
+.quest-controls__button--jump {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary-dark);
+  color: var(--color-text-inverse);
+}
+
+.quest-hud__tips {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1 1 260px;
+  justify-content: flex-end;
+}
+
+.quest-hud__tip {
+  font-size: 0.64rem;
+  line-height: 1.35;
+  color: var(--color-text-soft);
+  text-align: right;
+  max-width: 34ch;
+}
+
+.quest-hud__restart {
+  min-height: 34px;
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.7rem;
+}
+
+/* ---------- Bridge forming banner ---------- */
+
+.quest-forming {
+  position: fixed;
+  left: 50%;
+  bottom: 12%;
+  transform: translateX(-50%);
+  z-index: var(--z-topbar);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) var(--space-4);
+  text-align: center;
+  background-color: rgba(253, 254, 247, 0.95);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+  pointer-events: none;
+}
+
+.quest-forming__title {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.quest-forming__text {
+  font-size: 0.66rem;
+  color: var(--color-text-soft);
+}
+
+/* ---------- Victory ---------- */
+
+.quest-victory {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  background-color: var(--color-overlay);
+  animation: fade-in var(--duration-base) var(--ease-standard);
+}
+
+.quest-victory__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(100%, 560px);
+  max-height: 92dvh;
+  overflow-y: auto;
+  padding: var(--space-5);
+  background-color: var(--color-cream);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: pop-in var(--duration-base) var(--ease-standard);
+}
+
+.quest-victory__eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-primary-darker);
+}
+
+.quest-victory__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+.quest-victory__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.quest-victory__facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-left: var(--space-5);
+  font-size: var(--font-size-sm);
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.quest-victory__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+  .quest-page {
+    padding: var(--space-5) var(--space-3) var(--space-3);
+  }
+
+  .quest-page__header {
+    padding-inline: 0;
+  }
+
+  .quest-hud {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quest-controls {
+    justify-content: center;
+  }
+
+  .quest-hud__tips {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quest-hud__tip {
+    text-align: left;
+    max-width: none;
+  }
+}
+
+@media (min-width: 901px) {
+  /*
+   * One screen, no scrolling: the whole station (header, HUD, playfield) is
+   * locked to the viewport height and the playfield takes whatever is left.
+   * The header stays on one line so it can never squeeze the stage to zero.
+   */
+  .quest-page {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: hidden;
+    gap: var(--space-1);
+    padding: 46px var(--space-4) var(--space-2);
+  }
+
+  .quest-page__header {
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-inline: 76px;
+  }
+
+  .quest-page__eyebrow {
+    font-size: 0.54rem;
+  }
+
+  .quest-page__title {
+    font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .quest-page__level {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .quest-hud {
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    padding: var(--space-1) var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .quest-hud__tip {
+    font-size: 0.6rem;
+    max-width: 30ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .quest-hud__tips {
+    min-width: 0;
+  }
+
+  .quest-hud__stats,
+  .quest-controls,
+  .quest-hud__restart {
+    flex-shrink: 0;
+  }
+
+  .quest-controls__button {
+    width: 46px;
+    height: 46px;
+    font-size: 1rem;
+  }
+
+  /* Two classes so this beats the global floor below, whatever the order. */
+  .quest-page > .quest-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}
+
+/* Short laptop screens: tighten the chrome a little more. */
+@media (min-width: 901px) and (max-height: 720px) {
+  .quest-page__eyebrow {
+    display: none;
+  }
+
+  .quest-hud__tip {
+    display: none;
+  }
+}
+
+/*
+ * The playfield fills the whole stage (no letterbox gaps). It is never
+ * stretched: world x is laid out in units of the scene WIDTH, and every sprite
+ * derives its height from that width through `aspect-ratio` (see
+ * CloudQuestScene.tsx), so zooming or any window shape keeps shapes intact —
+ * only the vertical spacing between platforms changes, never their shape.
+ */
+.quest-stage {
+  display: flex;
+  flex: 1 1 auto;
+  /* A floor keeps the playfield visible when the header or HUD grows. */
+  min-height: clamp(220px, 40dvh, 620px);
+}
+
+.quest-stage > .quest-scene {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+}
+
+/* Phones keep a 16:9 playfield (the page scrolls, so there is no gap to fill). */
+@media (max-width: 900px) {
+  .quest-stage > .quest-scene {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ---------- layout telemetry (only rendered with ?debug=1) ---------- */
+
+.quest-debug {
+  position: fixed;
+  left: var(--space-2);
+  bottom: var(--space-2);
+  z-index: var(--z-modal);
+  display: grid;
+  gap: 1px;
+  padding: var(--space-1) var(--space-2);
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 0.62rem;
+  line-height: 1.35;
+  color: #f6f9e4;
+  background-color: rgba(20, 40, 26, 0.82);
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+}

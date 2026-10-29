@@ -1,0 +1,272 @@
+.chase-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: #bfe9f7;
+  box-shadow: var(--shadow-lg);
+  isolation: isolate;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+/* Images must never swallow the drag (native image drag would break it). */
+.chase-scene img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.chase-scene:active {
+  cursor: grabbing;
+}
+
+.chase-scene__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.chase-scene__sky {
+  position: absolute;
+  inset: 0 0 41% 0;
+  background: linear-gradient(180deg, #8fd4ef 0%, #cbeefb 68%, #e9f8fd 100%);
+}
+
+/* Vertical shaft of light from the Sun down to the water. */
+.chase-scene__beam {
+  position: absolute;
+  top: 14%;
+  bottom: 30%;
+  width: 14%;
+  transform: translateX(-50%);
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 236, 160, 0.55) 0%,
+    rgba(255, 236, 160, 0.22) 60%,
+    rgba(255, 236, 160, 0) 100%
+  );
+  clip-path: polygon(32% 0, 68% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+  transition: left 60ms linear;
+}
+
+/* The small sunlight patch that actually heats the droplets. */
+.chase-scene__light {
+  position: absolute;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 240, 170, 0.85) 0%,
+    rgba(255, 226, 130, 0.45) 55%,
+    rgba(255, 226, 130, 0) 72%
+  );
+  border: 2px dashed rgba(240, 169, 46, 0.55);
+  pointer-events: none;
+  transition:
+    left 60ms linear,
+    top 60ms linear;
+}
+
+/* ---------- Sun ---------- */
+
+.chase-scene__sun {
+  position: absolute;
+  top: 10%;
+  /* Big Sun: it is the main control of the game. */
+  width: clamp(104px, 18%, 196px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  z-index: 6;
+  border-radius: 50%;
+  outline-offset: 4px;
+  transition: left 60ms linear;
+  cursor: grab;
+}
+
+/* Fallback sun only: the supplied sun.png is used when it loads, with no
+   yellow disc drawn behind it. */
+.chase-scene__sun-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #fff3c9 0%, #f7c948 55%, #f0a92e 100%);
+  box-shadow: 0 0 26px rgba(247, 201, 72, 0.85);
+}
+
+.chase-scene__sun-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+  filter: drop-shadow(0 0 14px rgba(255, 214, 110, 0.75));
+}
+
+/* Rotating sunlight rays. Their size is fixed (viewport based) so they do NOT
+   grow when the Sun artwork gets bigger. */
+.chase-scene__rays {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(46vw, 220px);
+  height: min(46vw, 220px);
+  z-index: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 226, 130, 0.85) 0deg 3deg,
+    rgba(255, 226, 130, 0) 3deg 18deg
+  );
+  -webkit-mask-image: radial-gradient(circle, transparent 44%, #000 50%, #000 74%, transparent 80%);
+  mask-image: radial-gradient(circle, transparent 44%, #000 50%, #000 74%, transparent 80%);
+  animation: sun-rays 32s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes sun-rays {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* ---------- Water ---------- */
+
+.chase-scene__water {
+  position: absolute;
+  inset: 59% 0 0 0;
+  z-index: 4;
+  background: linear-gradient(180deg, #5cc0e8 0%, #3fa9dd 45%, #2b83b4 100%);
+}
+
+.chase-scene__water-surface {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+}
+
+/* ---------- Droplets ---------- */
+
+.chase-droplet {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: clamp(52px, 9.5%, 92px);
+  aspect-ratio: 1;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.chase-droplet__body {
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 50% 50% / 56% 56% 44% 44%;
+  background: radial-gradient(circle at 34% 28%, #e8f9ff 0%, #5cc0e8 45%, #2b83b4 100%);
+  box-shadow:
+    inset -2px -3px 6px rgba(6, 52, 78, 0.35),
+    0 3px 8px rgba(10, 60, 90, 0.28);
+}
+
+/* Supplied droplet artwork. */
+.chase-droplet__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(6, 52, 78, 0.35));
+}
+
+/* Stored solar energy: a vivid red level that rises from the bottom upwards.
+   `clip-path` is set inline from the energy value; the mask follows the
+   droplet artwork so the red only fills the droplet silhouette. */
+.chase-droplet__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ff4d4d 0%, #ff1a1a 45%, #e60000 100%);
+  opacity: 0.92;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  transition: clip-path 120ms linear;
+  pointer-events: none;
+}
+
+/* Rising vapour after an evaporation: clearly visible, drifting upwards a long
+   way. It stands for the fine water droplets that form again in the air (real
+   water vapour itself is invisible). */
+.chase-puff {
+  position: absolute;
+  width: clamp(44px, 8%, 78px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(228, 246, 255, 0.6) 45%,
+    rgba(228, 246, 255, 0) 74%
+  );
+  filter: blur(1.5px);
+  animation: puff-rise 2400ms var(--ease-standard) forwards;
+  pointer-events: none;
+}
+
+@keyframes puff-rise {
+  0% {
+    transform: translate(-50%, -50%) scale(0.55);
+    opacity: 0.95;
+  }
+  55% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -540%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chase-puff {
+    animation-duration: 1ms;
+  }
+}
+
+.chase-scene__note {
+  position: absolute;
+  left: var(--space-2);
+  bottom: 2px;
+  z-index: 7;
+  font-size: 0.54rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(6, 52, 78, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chase-scene__beam,
+  .chase-scene__light,
+  .chase-scene__sun,
+  .chase-droplet {
+    transition: none;
+  }
+}

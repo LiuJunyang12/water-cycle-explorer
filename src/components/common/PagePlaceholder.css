@@ -1,0 +1,45 @@
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--space-5);
+  background-color: var(--color-cream);
+}
+
+.placeholder__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  width: min(100%, 34rem);
+  padding: var(--space-6);
+  text-align: center;
+  background-color: var(--color-cream-strong);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.placeholder__badge {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-primary-darker);
+  background-color: rgba(103, 185, 113, 0.18);
+  border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+}
+
+.placeholder__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-2xl);
+  color: var(--color-text);
+}
+
+.placeholder__description {
+  font-size: var(--font-size-md);
+  color: var(--color-text-soft);
+}

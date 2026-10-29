@@ -1,0 +1,113 @@
+/* ============================================================
+   Water Cycle Explorer — Design tokens
+   Single source of truth for colour, spacing, radius, shadow,
+   typography, layering and motion. Do not hard-code these values
+   in component styles; always reference the variables below.
+   ============================================================ */
+
+:root {
+  /* ---- Brand colour ---- */
+  --color-primary: #67b971; /* main green: navigation, panels, progress */
+  --color-primary-dark: #4f9a59;
+  --color-primary-darker: #3f7f48;
+  --color-cream: #f6f9e4; /* soft cream green: cards, modals, quiz areas */
+  --color-cream-strong: #fdfef7;
+
+  /* ---- Text ---- */
+  --color-text: #24452b; /* deep green for primary text */
+  --color-text-soft: #4a6b52;
+  --color-text-inverse: #fdfef7;
+
+  /* ---- Natural accents (keep natural, do not green-wash) ---- */
+  --color-sun: #f7c948;
+  --color-sun-deep: #f0a92e;
+  --color-sky: #8fd4ef;
+  --color-water: #3fa9dd;
+  --color-water-deep: #2b83b4;
+  --color-cloud: #ffffff;
+
+  /* ---- Neutral / surface ---- */
+  --color-surface: #ffffff;
+  --color-border: rgba(36, 69, 43, 0.14);
+  --color-overlay: rgba(20, 44, 30, 0.42);
+  --color-glass-bg: rgba(255, 255, 255, 0.28);
+  --color-glass-border: rgba(255, 255, 255, 0.55);
+  --color-glass-shadow: rgba(23, 56, 40, 0.22);
+
+  /* ---- Feedback ---- */
+  --color-correct: #2f9e6b;
+  --color-incorrect: #d9726b;
+  --color-focus: #1f6f4a;
+
+  /* ---- Radius ---- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* ---- Spacing (4px scale) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* ---- Shadow ---- */
+  --shadow-sm: 0 2px 6px rgba(23, 56, 40, 0.12);
+  --shadow-md: 0 8px 20px rgba(23, 56, 40, 0.16);
+  --shadow-lg: 0 18px 46px rgba(23, 56, 40, 0.24);
+  --shadow-glass: 0 10px 30px var(--color-glass-shadow);
+  --shadow-pill: 0 12px 28px rgba(46, 92, 56, 0.28);
+
+  /* ---- Typography ---- */
+  --font-body: 'Segoe UI', 'Trebuchet MS', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Trebuchet MS', 'Segoe UI', Arial, sans-serif;
+  --font-size-xs: 0.78rem;
+  --font-size-sm: 0.9rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.6rem;
+  --font-size-2xl: clamp(1.9rem, 3.4vw, 2.8rem);
+  --font-size-3xl: clamp(2.3rem, 5vw, 3.8rem);
+
+  /* ---- Layering ---- */
+  --z-background: 0;
+  --z-content: 10;
+  --z-topbar: 40;
+  --z-drawer: 60;
+  --z-modal: 80;
+
+  /* ---- Motion ---- */
+  --duration-fast: 140ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* ---- Home page tuning ---- */
+  /* Background blur amount. Set to 0px to show the artwork sharp. */
+  --home-bg-blur: 5px;
+  --home-bg-dim: 0.16;
+  --home-pill-bob-distance: 10px;
+  --home-pill-bob-duration: 2.8s;
+  --vinyl-size: 46px;
+  --menu-button-size: 48px;
+  /* Space kept free at the top of station pages for the fixed menu + music buttons. */
+  --chrome-clearance: calc(var(--space-4) + var(--menu-button-size) + var(--space-3));
+
+  /* ---- Frosted-glass surfaces (keeps the cream/green palette) ---- */
+  --glass-cream: rgba(246, 249, 228, 0.72);
+  --glass-cream-strong: rgba(255, 255, 255, 0.58);
+  --glass-cream-border: rgba(255, 255, 255, 0.62);
+  --glass-blur: 20px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --vinyl-size: 52px;
+    --menu-button-size: 52px;
+    --home-bg-blur: 6px;
+  }
+}

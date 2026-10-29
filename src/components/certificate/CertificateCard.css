@@ -1,0 +1,22 @@
+.certificate {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  background: #fbfdf1;
+  box-shadow: 0 2px 0 rgba(36, 69, 43, 0.08);
+  user-select: none;
+}
+
+@media print {
+  .certificate {
+    box-shadow: none;
+    border-radius: 0;
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+}

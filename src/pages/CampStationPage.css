@@ -1,0 +1,333 @@
+.camp-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  /* One screen, no scrolling: the whole station must fit without a scrollbar. */
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  padding: var(--space-2) var(--space-4) var(--space-3);
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 62%),
+    linear-gradient(180deg, #e6f4fb 0%, #f4f9ea 55%, #f6f9e4 100%);
+}
+
+/* ---------- Header ---------- */
+
+.camp-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  /* Keeps the text clear of the fixed menu button (left) and vinyl (right). */
+  padding-inline: 60px;
+  text-align: center;
+}
+
+.camp-page__eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--color-primary-darker);
+}
+
+.camp-page__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+.camp-page__subtitle {
+  font-size: clamp(0.7rem, 1.4vw, 0.82rem);
+  line-height: 1.3;
+  color: var(--color-text-soft);
+}
+
+/* ---------- Video ---------- */
+
+.camp-page__video-wrap {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.camp-page__video {
+  display: block;
+  /* Height budget keeps header, progress and the continue button on screen. */
+  width: min(100%, calc((100dvh - 230px) * 16 / 9), 900px);
+  aspect-ratio: 16 / 9;
+  background-color: #101a22;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.camp-page__video-description {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-soft);
+  text-align: center;
+}
+
+/* Audio mode: illustration frame with the player docked inside it. */
+.camp-page__audio-frame {
+  position: relative;
+  width: min(100%, calc((100dvh - 230px) * 16 / 9), 900px);
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: #101a22;
+  box-shadow: var(--shadow-lg);
+}
+
+.camp-page__audio-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camp-page__audio {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 6%;
+  display: block;
+  width: 88%;
+  filter: drop-shadow(0 6px 16px rgba(10, 20, 26, 0.45));
+}
+
+.camp-page__video-missing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  justify-content: center;
+  width: min(100%, calc((100dvh - 230px) * 16 / 9), 900px);
+  aspect-ratio: 16 / 9;
+  padding: var(--space-5);
+  text-align: center;
+  background-color: var(--color-cream-strong);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-soft);
+}
+
+.camp-page__video-missing-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+/* ---------- Watch progress ---------- */
+
+.camp-page__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: min(100%, 720px);
+}
+
+.camp-page__progress-track {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background-color: rgba(36, 69, 43, 0.12);
+  overflow: hidden;
+}
+
+.camp-page__progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-primary);
+  transition: width var(--duration-base) var(--ease-standard);
+}
+
+.camp-page__status {
+  font-size: 0.7rem;
+  text-align: center;
+  color: var(--color-text-soft);
+}
+
+.camp-page__continue {
+  margin-top: 2px;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-5);
+  font-size: 0.9rem;
+}
+
+/* ---------- Guiding questions (text only, floating over the scene) ---------- */
+
+/* Heading and note stay available to screen readers without drawing anything. */
+.camp-questions__heading,
+.camp-questions__note {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.camp-questions__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  list-style: none;
+  max-width: 40rem;
+}
+
+/* Entrance first, then an endless gentle bob so each question hangs in the air.
+   Different speeds/delays keep the three from moving in lockstep. */
+.camp-question {
+  animation:
+    fade-in-up var(--duration-slow) var(--ease-standard) both,
+    float-soft 4.6s var(--ease-standard) infinite 0.6s;
+}
+
+.camp-question:nth-child(2) {
+  animation:
+    fade-in-up var(--duration-slow) var(--ease-standard) both,
+    float-soft 5.6s var(--ease-standard) infinite 0.9s;
+}
+
+.camp-question:nth-child(3) {
+  animation:
+    fade-in-up var(--duration-slow) var(--ease-standard) both,
+    float-soft 4.1s var(--ease-standard) infinite 1.2s;
+}
+
+.camp-question__text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--color-text);
+  /* No card or border: a soft white glow keeps the words readable on any backdrop. */
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.95),
+    0 0 14px rgba(255, 255, 255, 0.85),
+    0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+/* Wide screens: the questions float at the left and right edges of the page. */
+@media (min-width: 1000px) {
+  .camp-questions {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: var(--z-content);
+  }
+
+  .camp-questions__heading {
+    display: none;
+  }
+
+  .camp-questions__list {
+    position: static;
+    max-width: none;
+  }
+
+  .camp-question {
+    position: absolute;
+    width: 15rem;
+  }
+
+  .camp-question--left {
+    left: var(--space-5);
+  }
+
+  .camp-question--right {
+    right: var(--space-5);
+  }
+
+  .camp-questions__list > .camp-question:nth-child(1) {
+    top: 26%;
+  }
+
+  .camp-questions__list > .camp-question:nth-child(2) {
+    top: 44%;
+  }
+
+  .camp-questions__list > .camp-question:nth-child(3) {
+    top: 62%;
+  }
+}
+
+/* Narrow screens: the questions float over the upper middle of the scene,
+   text only, so they never need a scrollbar or a panel. */
+@media (max-width: 999px) {
+  .camp-questions {
+    position: fixed;
+    left: var(--space-4);
+    right: var(--space-4);
+    top: 24%;
+    z-index: var(--z-topbar);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    pointer-events: none;
+    text-align: center;
+  }
+
+  .camp-questions__list {
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .camp-question__text {
+    font-size: 1rem;
+  }
+}
+
+/* ---------- Floating back button ---------- */
+
+.camp-page__back {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: var(--z-topbar);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(54px, 5.6vw, 60px);
+  height: clamp(54px, 5.6vw, 60px);
+  padding: 0;
+  border-radius: 50%;
+  color: var(--color-text);
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.camp-page__back:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.42);
+}
+
+.camp-page__back svg {
+  display: block;
+  width: 50%;
+  height: 50%;
+}
+
+@media (max-width: 520px) {
+  .camp-page {
+    padding: var(--space-1) var(--space-3) var(--space-2);
+  }
+
+  .camp-page__back {
+    right: var(--space-3);
+    bottom: var(--space-3);
+  }
+}

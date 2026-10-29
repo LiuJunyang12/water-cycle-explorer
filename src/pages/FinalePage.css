@@ -1,0 +1,484 @@
+.finale-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--chrome-clearance) var(--space-4) var(--space-6);
+  background:
+    radial-gradient(circle at 50% -10%, #fff8d6 0%, rgba(255, 248, 214, 0) 46%),
+    radial-gradient(circle at 12% 8%, rgba(103, 185, 113, 0.22), transparent 42%),
+    linear-gradient(180deg, #dff3fb 0%, #eef8e0 58%, var(--color-cream) 100%);
+  overflow-x: hidden;
+}
+
+.finale-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.finale-page__eyebrow {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--color-primary-dark, #2f6b3c);
+}
+
+.finale-page__title {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.35rem, 3vw, 2.1rem);
+  color: var(--color-text);
+}
+
+.finale-page__subtitle {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(36, 69, 43, 0.68);
+}
+
+.finale-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(1120px, 100%);
+  min-height: clamp(360px, 56dvh, 640px);
+  padding: var(--space-5) var(--space-4);
+  border-radius: 32px;
+  border: 1px solid rgba(103, 185, 113, 0.4);
+  background:
+    radial-gradient(ellipse at 50% 108%, rgba(103, 185, 113, 0.28), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(246, 249, 228, 0.9) 100%);
+  box-shadow: 0 24px 60px rgba(36, 69, 43, 0.14);
+  overflow: hidden;
+}
+
+.finale-stage__lights {
+  position: absolute;
+  inset: -20% -10% auto;
+  height: 70%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 244, 196, 0.75), transparent 62%);
+  pointer-events: none;
+}
+
+.finale-stage__confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.finale-stage__confetti-dot {
+  position: absolute;
+  top: -8%;
+  width: 9px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--color-primary);
+  opacity: 0.55;
+  animation-name: finale-confetti;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.finale-stage__confetti-dot:nth-child(3n) {
+  background: var(--color-sun, #f7c948);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.finale-stage__confetti-dot:nth-child(4n) {
+  background: var(--color-water, #3fa9dd);
+}
+
+@keyframes finale-confetti {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(620px) rotate(320deg);
+    opacity: 0;
+  }
+}
+
+/* ---------- Wally + dialogue ---------- */
+
+.finale-wally {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 900px;
+  flex-wrap: wrap;
+}
+
+.finale-wally__figure {
+  position: relative;
+  flex: 0 0 auto;
+  animation: finale-walk-in 2.5s cubic-bezier(0.22, 0.88, 0.28, 1) both;
+}
+
+.finale-stage--walking .finale-wally__figure {
+  animation-name: finale-walk-in;
+}
+
+.finale-wally__figure::after {
+  content: '';
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: -6px;
+  height: clamp(12px, 1.6vmin, 20px);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(47, 107, 60, 0.32), transparent 78%);
+  filter: blur(2px);
+}
+
+.finale-wally__sprite {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: clamp(140px, 21vmin, 250px);
+  height: auto;
+  animation: finale-idle 3.4s ease-in-out 2.5s infinite;
+}
+
+.finale-wally__fallback {
+  position: relative;
+  width: clamp(140px, 21vmin, 250px);
+  aspect-ratio: 3 / 4;
+  border-radius: 46% 46% 50% 50% / 58% 58% 42% 42%;
+  background: linear-gradient(160deg, #bfe9ff, #67b9e8 62%, #3fa9dd);
+  box-shadow: inset -10px -14px 24px rgba(27, 90, 130, 0.25);
+}
+
+.finale-wally__eye {
+  position: absolute;
+  top: 38%;
+  width: 15%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 0 0 3px #1f4b66;
+}
+
+.finale-wally__eye:first-child {
+  left: 26%;
+}
+
+.finale-wally__eye:nth-child(2) {
+  right: 26%;
+}
+
+.finale-wally__smile {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: 26%;
+  height: 12%;
+  border: 3px solid #1f4b66;
+  border-top: none;
+  border-radius: 0 0 40px 40px;
+  transform: translateX(-50%);
+}
+
+@keyframes finale-walk-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-38vw) translateY(6px);
+  }
+  60% {
+    opacity: 1;
+  }
+  82% {
+    transform: translateX(2vw) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes finale-idle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.finale-bubble {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 320px;
+  max-width: 520px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 26px 26px 26px 10px;
+  background: rgba(255, 255, 255, 0.93);
+  border: 2px solid rgba(103, 185, 113, 0.55);
+  box-shadow: 0 14px 32px rgba(36, 69, 43, 0.16);
+  animation: finale-bubble-pop 0.4s ease-out both;
+}
+
+.finale-bubble__name {
+  margin: 0 0 6px;
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: var(--radius-pill, 999px);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.finale-bubble__text {
+  margin: 0;
+  font-size: clamp(0.92rem, 1.65vw, 1.1rem);
+  line-height: 1.62;
+  color: var(--color-text);
+  animation: finale-line-in 0.45s ease-out both;
+}
+
+.finale-bubble__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-3);
+}
+
+@keyframes finale-bubble-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes finale-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Certificate reveal ---------- */
+
+.finale-certificate {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  animation: finale-certificate-in 0.6s ease-out both;
+}
+
+.finale-certificate__note {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-primary-dark, #2f6b3c);
+}
+
+.finale-certificate__paper {
+  width: min(1060px, 100%);
+  filter: drop-shadow(0 22px 44px rgba(36, 69, 43, 0.22));
+}
+
+.finale-certificate__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.finale-certificate__error {
+  margin: 0;
+  color: #a63b3b;
+  font-size: 0.85rem;
+}
+
+.finale-certificate__hint {
+  margin: 0;
+  font-size: 0.72rem;
+  color: rgba(36, 69, 43, 0.6);
+}
+
+@keyframes finale-certificate-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- Name dialog ---------- */
+
+.finale-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal, 80);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: rgba(36, 69, 43, 0.42);
+  backdrop-filter: blur(6px);
+}
+
+.finale-name-card {
+  width: min(460px, 100%);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border-radius: 26px;
+  background: #ffffff;
+  box-shadow: 0 26px 60px rgba(36, 69, 43, 0.3);
+  animation: finale-bubble-pop 0.3s ease-out both;
+}
+
+.finale-name-card__title {
+  margin: 0 0 4px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.3rem;
+  color: var(--color-text);
+}
+
+.finale-name-card__note {
+  margin: 0 0 var(--space-3);
+  font-size: 0.85rem;
+  color: rgba(36, 69, 43, 0.7);
+}
+
+.finale-name-card__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(36, 69, 43, 0.7);
+  margin-bottom: 6px;
+}
+
+.finale-name-card__input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid rgba(103, 185, 113, 0.55);
+  background: #fbfdf1;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.finale-name-card__input:focus-visible {
+  outline: 3px solid rgba(103, 185, 113, 0.45);
+  outline-offset: 1px;
+}
+
+.finale-name-card__error {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: #a63b3b;
+}
+
+.finale-name-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+@media (max-width: 900px) {
+  .finale-wally {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .finale-bubble {
+    max-width: 100%;
+    border-radius: 22px;
+  }
+
+  .finale-stage {
+    padding: var(--space-4) var(--space-3);
+  }
+}
+
+@media print {
+  .finale-page {
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .finale-page__header,
+  .finale-wally,
+  .finale-certificate__note,
+  .finale-certificate__actions,
+  .finale-certificate__hint,
+  .finale-stage__confetti,
+  .finale-stage__lights,
+  .back-to-map {
+    display: none !important;
+  }
+
+  .finale-stage {
+    border: none;
+    box-shadow: none;
+    background: #ffffff;
+    padding: 0;
+    min-height: 0;
+  }
+
+  .finale-certificate__paper {
+    width: 100%;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finale-wally__figure,
+  .finale-wally__sprite,
+  .finale-bubble,
+  .finale-bubble__text,
+  .finale-certificate,
+  .finale-stage__confetti-dot {
+    animation: none !important;
+  }
+}
+
+/* Delivery note for the teacher report, shown under the certificate actions. */
+.finale-certificate__report {
+  margin: var(--space-2) 0 0;
+  font-size: 0.82rem;
+  color: #2f6b3c;
+  text-align: center;
+}

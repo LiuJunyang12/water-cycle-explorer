@@ -1,0 +1,83 @@
+.app {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Menu button sits above page content but below the drawer/modal layers. */
+.app__menu-anchor {
+  position: fixed;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: var(--z-topbar);
+}
+
+@media (max-width: 520px) {
+  .app__menu-anchor {
+    top: var(--space-3);
+    left: var(--space-3);
+  }
+}
+
+/* ---------- Error fallback ---------- */
+
+.app-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--space-4);
+  background: linear-gradient(180deg, #eef8fb 0%, #f6f9e4 100%);
+}
+
+.app-error__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(100%, 560px);
+  padding: var(--space-4) var(--space-5);
+  background-color: var(--color-cream);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.app-error__eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-primary-darker);
+}
+
+.app-error__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+.app-error__text {
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--color-text-soft);
+}
+
+.app-error__detail {
+  max-height: 8rem;
+  overflow: auto;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.72rem;
+  white-space: pre-wrap;
+  color: var(--color-text);
+  background-color: rgba(36, 69, 43, 0.06);
+  border-radius: var(--radius-sm);
+}
+
+.app-error__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}

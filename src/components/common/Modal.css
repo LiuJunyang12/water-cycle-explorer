@@ -1,0 +1,108 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-overlay);
+  animation: fade-in var(--duration-base) var(--ease-standard);
+}
+
+.modal__dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 520px);
+  max-height: min(86vh, 720px);
+  padding: var(--space-5);
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: pop-in var(--duration-base) var(--ease-standard);
+  overflow: hidden;
+}
+
+/* Elongated rounded dialog. The radius is a real corner radius (not a full
+   capsule) and the horizontal padding is wide enough that the curve never
+   cuts into the text, even at the widest breakpoints. */
+.modal__dialog--wide {
+  width: min(100%, 760px);
+  border-radius: 36px;
+  padding: var(--space-5) clamp(var(--space-6), 7vw, var(--space-8));
+}
+
+.modal__dialog--wide .modal__title {
+  font-size: var(--font-size-md);
+}
+
+.modal__dialog--wide .modal__body {
+  font-size: var(--font-size-sm);
+}
+
+.modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+.modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+/* An SVG cross is centred optically, unlike the "×" text glyph. */
+.modal__close svg {
+  display: block;
+  margin: auto;
+}
+
+.modal__close:hover {
+  background-color: rgba(103, 185, 113, 0.16);
+}
+
+.modal__body {
+  padding-top: var(--space-4);
+  overflow-y: auto;
+}
+
+@media (max-width: 520px) {
+  .modal__dialog--wide {
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal__dialog,
+  .modal__backdrop {
+    animation: none;
+  }
+}

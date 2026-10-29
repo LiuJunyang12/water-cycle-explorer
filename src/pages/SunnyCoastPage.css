@@ -1,0 +1,292 @@
+.chase-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--chrome-clearance) var(--space-4) var(--space-3);
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, #dff3fb 0%, #f2f8e6 60%, #f6f9e4 100%);
+}
+
+/* ---------- Header ---------- */
+
+.chase-page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-inline: 60px;
+}
+
+.chase-page__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.chase-page__eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-primary-darker);
+}
+
+.chase-page__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+.chase-page__mission {
+  font-size: clamp(0.72rem, 1.4vw, 0.86rem);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.chase-page__hint {
+  font-size: clamp(0.64rem, 1.3vw, 0.74rem);
+  color: var(--color-text-soft);
+}
+
+.chase-page__back {
+  flex-shrink: 0;
+  min-height: 38px;
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.74rem;
+}
+
+/* ---------- Layout ---------- */
+
+.chase-page__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: var(--space-3);
+  align-items: start;
+}
+
+/* ---------- Side panel ---------- */
+
+.chase-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: rgba(253, 254, 247, 0.94);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.chase-panel__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.chase-panel__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-text-soft);
+}
+
+.chase-panel__value {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-primary-darker);
+}
+
+.chase-panel__track {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background-color: rgba(36, 69, 43, 0.12);
+  overflow: hidden;
+}
+
+.chase-panel__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-primary);
+  transition: width var(--duration-base) var(--ease-standard);
+}
+
+.chase-panel__group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chase-panel__slider {
+  width: 100%;
+  accent-color: var(--color-sun-deep);
+  cursor: pointer;
+}
+
+.chase-panel__readout {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.chase-panel__tip {
+  min-height: 2.2em;
+  font-size: 0.7rem;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
+.chase-panel__restart {
+  width: 100%;
+  min-height: 40px;
+  font-size: 0.8rem;
+}
+
+.chase-panel__note {
+  font-size: 0.6rem;
+  line-height: 1.35;
+  color: var(--color-text-soft);
+}
+
+/* ---------- Completion overlay ---------- */
+
+.chase-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background-color: var(--color-overlay);
+  animation: fade-in var(--duration-base) var(--ease-standard);
+}
+
+.chase-overlay__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(100%, 520px);
+  max-height: 88dvh;
+  overflow-y: auto;
+  padding: var(--space-5);
+  background-color: var(--color-cream);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: pop-in var(--duration-base) var(--ease-standard);
+}
+
+.chase-overlay__eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-primary-darker);
+}
+
+.chase-overlay__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.chase-overlay__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.chase-overlay__facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-5);
+  font-size: var(--font-size-sm);
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.chase-overlay__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  margin-top: var(--space-1);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .chase-page {
+    padding: var(--chrome-clearance) var(--space-3) var(--space-3);
+  }
+
+  .chase-page__header {
+    padding-inline: 0;
+  }
+
+  .chase-page__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 901px) {
+  /* Desktop: the whole level fits on one screen. */
+  .chase-page {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    padding-top: var(--chrome-clearance);
+  }
+}
+
+/* ---------- Desktop: fill the viewport, never clip the play area ---------- */
+/* The level is judged on the full scene, so the scene has to stretch to the
+   space left between the header and the bottom of the window instead of
+   keeping its 4:3 width-derived height (which used to push the droplets below
+   the fold on wide screens). */
+
+@media (min-width: 901px) {
+  .chase-page__header {
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .chase-page__layout {
+    flex: 1 1 auto;
+    min-height: 0;
+    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) clamp(220px, 20vw, 300px);
+  }
+
+  .chase-page__layout > * {
+    min-height: 0;
+  }
+
+  .chase-scene {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .chase-panel {
+    max-height: 100%;
+    overflow-y: auto;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 720px) {
+  .chase-page__hint {
+    display: none;
+  }
+}

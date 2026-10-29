@@ -1,0 +1,100 @@
+/* ============================================================
+   Shared keyframes. Every animation here is decorative and must
+   stop when the visitor prefers reduced motion (see bottom).
+   ============================================================ */
+
+/* Slow, gentle vertical bob for the main call-to-action button. */
+@keyframes bob-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(calc(-1 * var(--home-pill-bob-distance)));
+  }
+}
+
+/* Vinyl record rotation. */
+@keyframes spin-vinyl {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Generic entrances. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gentle endless bobbing so floating text feels suspended in the air. */
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.6deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.6deg);
+  }
+}
+
+/* Soft sun-coloured halo marking the station that can be played now. */
+@keyframes node-halo {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(240, 169, 46, 0.35), var(--shadow-md);
+  }
+  50% {
+    box-shadow: 0 0 0 9px rgba(240, 169, 46, 0.16), var(--shadow-md);
+  }
+}
+
+/* Respect the visitor's motion preference: remove animation entirely. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

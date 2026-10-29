@@ -1,0 +1,121 @@
+.menu-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer);
+}
+
+.menu-drawer__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-overlay);
+  animation: fade-in var(--duration-base) var(--ease-standard);
+}
+
+.menu-drawer__panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: min(84vw, 330px);
+  height: 100%;
+  padding: var(--space-5) var(--space-4);
+  /* Frosted glass that keeps the cream/green palette of the design system. */
+  background-color: var(--glass-cream);
+  border-right: 1px solid var(--glass-cream-border);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  animation: slide-in-left var(--duration-base) var(--ease-standard);
+  overflow-y: auto;
+}
+
+/* Keep the drawer readable when backdrop-filter is unsupported. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .menu-drawer__panel {
+    background-color: var(--color-cream);
+  }
+}
+
+.menu-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.menu-drawer__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-text-soft);
+}
+
+.menu-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.menu-drawer__close svg {
+  display: block;
+  margin: auto;
+}
+
+.menu-drawer__close:hover {
+  background-color: rgba(103, 185, 113, 0.16);
+}
+
+.menu-drawer__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  list-style: none;
+}
+
+.menu-drawer__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  min-height: 64px;
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-cream-strong);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.menu-drawer__item:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+  transform: translateX(2px);
+}
+
+.menu-drawer__item-label {
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+}
+
+.menu-drawer__item-description {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-soft);
+}

@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Local env / cache
+*.local
+.vite/
+
+# Test output
+coverage/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+
+# Local secrets (report endpoint)
+.env
+
+# Scratch space for the station-1 video build + dev server logs
+.video-build/
+.dev-server*.log
+
+# Master artwork / source renders (kept on disk, not shipped)
+design-assets/

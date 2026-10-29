@@ -1,0 +1,32 @@
+.menu-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: var(--menu-button-size);
+  height: var(--menu-button-size);
+  padding: 0;
+  border-radius: 50%;
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.menu-button:hover {
+  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, 0.42);
+}
+
+.menu-button:active {
+  transform: translateY(1px);
+}
+
+.menu-button__bar {
+  display: block;
+  height: 3px;
+  /* Fixed bar width keeps the icon balanced inside the circle. */
+  width: calc(var(--menu-button-size) * 0.42);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-text);
+}
