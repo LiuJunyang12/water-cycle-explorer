@@ -157,3 +157,18 @@ powershell -ExecutionPolicy Bypass -File tools\process-valley-assets.ps1
 结算卡片目前纯 CSS 绘制，不需要素材；若要加装饰图，建议 `public/assets/images/challenge-lab/result-celebration.png`（900×600，透明背景）。
 
 注意：水蒸气不可见这条红线同样适用——「云」题只能画微小水滴/冰晶，不能画白色蒸汽。
+## Offline e-book（首页菜单的 OFFLINE E-BOOK）
+
+| 项目 | 内容 |
+| --- | --- |
+| 网页读取路径 | `public/assets/images/../ebook/offline-ebook.pdf`（实际文件：`public/assets/ebook/offline-ebook.pdf`） |
+| 下载时的文件名 | `E-book-Kitaran-Air.pdf`（`src/data/homeContent.ts` 的 `fileName`） |
+| 当前文件 | `Offline e-book.pdf`，11 页，11.96 MB，未加密 |
+| 文案 | `OFFLINE_EBOOK.description` / `meta`（弹窗里显示「PDF · 大约 12 MB」） |
+
+**两个按钮**：`Muat Turun …` 走 `<a download>` 直接存盘；`Baca dalam talian` 在
+新标签页用浏览器自带 PDF 阅读器打开（手机端会自动调起阅读器）。
+
+**换文件**：把新的 PDF 覆盖成 `public/assets/ebook/offline-ebook.pdf`（或改
+`fileUrl`），并同步 `fileName` 与 `meta` 里的体积说明；`fileUrl` 设为 `null`
+会回到「尚未提供」的禁用状态。

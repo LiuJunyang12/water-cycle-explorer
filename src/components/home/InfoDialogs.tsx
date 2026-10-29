@@ -52,19 +52,32 @@ export function OfflineEbookDialog({ isOpen, onClose }: DialogProps) {
       <p className="info-description">{OFFLINE_EBOOK.description}</p>
 
       {isAvailable ? (
-        <a
-          className="info-download"
-          href={OFFLINE_EBOOK.fileUrl ?? undefined}
-          download={OFFLINE_EBOOK.fileName ?? undefined}
-        >
-          Muat Turun {OFFLINE_EBOOK.fileName}
-        </a>
+        <div className="info-actions">
+          <a
+            className="info-download"
+            href={OFFLINE_EBOOK.fileUrl ?? undefined}
+            download={OFFLINE_EBOOK.fileName ?? undefined}
+          >
+            Muat Turun {OFFLINE_EBOOK.fileName}
+          </a>
+          <a
+            className="info-download info-download--ghost"
+            href={OFFLINE_EBOOK.fileUrl ?? undefined}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Baca dalam talian
+          </a>
+        </div>
       ) : (
         <button type="button" className="info-download" disabled>
           Muat Turun (belum tersedia)
         </button>
       )}
 
+      {isAvailable && OFFLINE_EBOOK.meta ? (
+        <p className="info-note">{OFFLINE_EBOOK.meta}</p>
+      ) : null}
       {!isAvailable ? <p className="info-note">{OFFLINE_EBOOK.pendingNote}</p> : null}
     </Modal>
   );

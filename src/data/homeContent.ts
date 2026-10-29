@@ -2,8 +2,7 @@
  * Content shown by the three menu dialogs on the home page.
  *
  * Student profile and RPH objectives are supplied by the project owner. The
- * offline e-book is still pending: `fileUrl: null` keeps the download disabled
- * and states that plainly, instead of inventing a file.
+ * offline e-book lives in `public/assets/ebook/offline-ebook.pdf`.
  */
 
 import { BASE_URL } from '../config/baseUrl';
@@ -42,18 +41,23 @@ export const STUDENT_PROFILE: StudentProfileContent = {
 export interface OfflineEbookContent {
   title: string;
   description: string;
-  /** Set `fileUrl` once the file exists in `public/downloads/`. */
+  /** File name offered to the browser's save dialog. */
   fileName: string | null;
+  /** Path inside public/; 
+ull keeps the download disabled. */
   fileUrl: string | null;
+  /** Short note under the buttons, e.g. file type and size. */
+  meta?: string;
   pendingNote: string;
 }
 
 export const OFFLINE_EBOOK: OfflineEbookContent = {
   title: 'OFFLINE E-BOOK',
   description:
-    'Muat turun e-book Kitaran Air Semula Jadi untuk dibaca tanpa sambungan Internet.',
-  fileName: null,
-  fileUrl: null,
+    'E-book Kitaran Air Semula Jadi untuk dibaca tanpa sambungan Internet — boleh dibuka terus dalam pelayar atau dimuat turun ke peranti.',
+  fileName: 'E-book-Kitaran-Air.pdf',
+  fileUrl: `${BASE_URL}assets/ebook/offline-ebook.pdf`,
+  meta: 'PDF · lebih kurang 12 MB',
   pendingNote: 'Fail e-book belum disediakan.',
 };
 

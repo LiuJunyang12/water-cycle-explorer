@@ -70,7 +70,7 @@ describe('App navigation shell', () => {
     ).toBeInTheDocument();
   });
 
-  test('the e-book dialog shows a disabled download until a file is supplied', async () => {
+  test('the e-book dialog offers the supplied PDF for reading and download', async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -78,7 +78,15 @@ describe('App navigation shell', () => {
     await user.click(screen.getByRole('button', { name: /OFFLINE E-BOOK/ }));
 
     const ebookDialog = screen.getByRole('dialog', { name: 'OFFLINE E-BOOK' });
-    expect(within(ebookDialog).getByRole('button', { name: /belum tersedia/i })).toBeDisabled();
+    expect(within(ebookDialog).getByRole('link', { name: /Muat Turun/ })).toHaveAttribute(
+      'href',
+      expect.stringContaining('assets/ebook/offline-ebook.pdf'),
+    );
+    expect(within(ebookDialog).getByRole('link', { name: 'Baca dalam talian' })).toHaveAttribute(
+      'target',
+      '_blank',
+    );
+    expect(within(ebookDialog).queryByText(/belum tersedia/i)).not.toBeInTheDocument();
   });
 
   test('Escape closes the open dialog', async () => {
