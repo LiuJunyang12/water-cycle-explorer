@@ -158,6 +158,20 @@ describe('delivery', () => {
     expect(readReportQueue()).toHaveLength(1);
   });
 
+  it('drops the certificate image from the offline queue to protect storage', () => {
+    const report = buildQuizReport(makeRun(), 'Aina', [], new Date('2026-10-31T03:00:00.000Z'), {
+      fileName: 'Sijil - Aina - 2026-10-31.png',
+      mimeType: 'image/png',
+      data: 'UE5H',
+    });
+
+    queueReport(report);
+
+    const [parked] = readReportQueue();
+    expect(parked.reportId).toBe(report.reportId);
+    expect(parked.certificate).toBeNull();
+  });
+
   it('does not queue the same run twice', () => {
     const report = buildQuizReport(makeRun(), 'Aina');
     queueReport(report);

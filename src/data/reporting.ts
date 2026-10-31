@@ -237,10 +237,14 @@ function writeQueue(reports: QuizReport[]): void {
   }
 }
 
-/** Puts a report in the offline queue, replacing an older copy of the same run. */
+/**
+ * Puts a report in the offline queue, replacing an older copy of the same run.
+ * The certificate image is dropped here: it can be ~0.7 MB of base64 and the
+ * queue lives in localStorage, so the row is kept and the picture is lost.
+ */
 export function queueReport(report: QuizReport): void {
   const queue = readQueue().filter((entry) => entry.reportId !== report.reportId);
-  queue.push(report);
+  queue.push({ ...report, certificate: null });
   writeQueue(queue);
 }
 

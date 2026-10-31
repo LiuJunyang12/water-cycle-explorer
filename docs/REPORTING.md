@@ -303,3 +303,12 @@ npm test -- src/pages/FinalePage.test.tsx # 确认名字后只发送一次、离
 
 也可以把 `.env` 的地址临时指向
 [RequestBin](https://pipedream.com/requestbin) 之类的抓包服务，看实际 POST 出去的 JSON。
+---
+
+## 证书图片说明（2026-10-31 起）
+
+- 浏览器会把证书**在本地栅格化成 PNG**（2240×1584，约 500 KB），再随报告一起 POST 上去；
+  Apps Script 解码后存进同一个 Drive 文件夹，文件名 `Sijil - <姓名> - <yyyy-mm-dd>.png`。
+- 表格新增第 13 列 `Sijil (pautan)`，点一下就是那张证书；旧表格会在下一次写入时自动补上表头。
+- **离线队列不会保存图片**：证书的 base64 约 690 KB，`localStorage` 存不下几十份；断网时只保留成绩行，图片丢弃（联网后补发的是没有图片的那份）。
+- 早期版本在文件夹里留下的 `<姓名> - <时间>.json` 可以整批删除，已经不需要了。
