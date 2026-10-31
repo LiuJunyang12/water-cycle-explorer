@@ -15,6 +15,7 @@ const HEADERS = [
   'Tempoh pengembaraan (saat)',
   'Jawapan',
   'ID laporan',
+  'Sijil (pautan)',
 ];
 
 function doPost(e) {
@@ -53,6 +54,19 @@ function doPost(e) {
       })
       .join(' · ');
 
+    // The pupil's certificate goes into the folder as an image, so the teacher
+    // opens a certificate instead of reading raw code.
+    let certificateUrl = '';
+    const certificate = payload.certificate;
+    if (certificate && certificate.data) {
+      const blob = Utilities.newBlob(
+        Utilities.base64Decode(certificate.data),
+        certificate.mimeType || 'image/png',
+        certificateFileName_(payload, certificate),
+      );
+      certificateUrl = DriveApp.getFolderById(FOLDER_ID).createFile(blob).getUrl();
+    }
+
     sheet.appendRow([
       payload.submittedAt,
       payload.studentName,
@@ -68,13 +82,8 @@ function doPost(e) {
         : journey.journeySeconds,
       answers,
       payload.reportId,
+      certificateUrl,
     ]);
-
-    DriveApp.getFolderById(FOLDER_ID).createFile(
-      payload.studentName + ' - ' + payload.submittedAt + '.json',
-      JSON.stringify(payload, null, 2),
-      MimeType.PLAIN_TEXT,
-    );
 
     return json_({ ok: true });
   } catch (error) {
@@ -113,8 +122,35 @@ function ensureHeader_(spreadsheet) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
     sheet.setFrozenRows(1);
+    return sheet;
+  }
+  // Older sheets only had the first columns; keep the header in sync so a new
+  // column (like the certificate link) appears without the teacher editing it.
+  const row = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
+  if (row.join('|') !== HEADERS.join('|')) {
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
   }
   return sheet;
+}
+
+/** Drive-safe file name for the certificate image. */
+function certificateFileName_(payload, certificate) {
+  const fallback =
+    'Sijil - ' +
+    safeName_(payload.studentName) +
+    ' - ' +
+    new Date(payload.submittedAt).toISOString().slice(0, 10) +
+    '.png';
+  const wanted = certificate.fileName || fallback;
+  return /\.png$/i.test(wanted) ? wanted : wanted + '.png';
+}
+
+function safeName_(value) {
+  return String(value || 'Saintis Air')
+    .replace(/[\\/:*?"<>|]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 80);
 }
 
 function hasReport_(sheet, reportId) {
