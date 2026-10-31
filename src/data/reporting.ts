@@ -1,4 +1,5 @@
 import { PASS_MARK, QUESTION_COUNT, QUIZ_QUESTIONS, type QuizState } from '../game/quizLab';
+import { normaliseScientistName } from './finale';
 import { STATIONS, type StationCompletion, type StationId } from './stations';
 
 /**
@@ -70,6 +71,14 @@ export interface JourneySnapshot {
   journeySeconds: number | null;
 }
 
+/** A rendered certificate that rides along, so Drive keeps an image, not code. */
+export interface CertificateUpload {
+  fileName: string;
+  mimeType: string;
+  /** Base64 PNG without the `data:` prefix. */
+  data: string;
+}
+
 /** The full report that leaves the browser. */
 export interface QuizReport extends QuizRun {
   version: number;
@@ -79,6 +88,7 @@ export interface QuizReport extends QuizRun {
   studentName: string;
   answers: ReportAnswer[];
   journey: JourneySnapshot;
+  certificate: CertificateUpload | null;
 }
 
 export type ReportDelivery = 'sent' | 'queued' | 'disabled';
@@ -152,11 +162,19 @@ export function buildJourney(
 }
 
 /** Builds the report that goes to the teacher's Drive. */
+/** File name used both in Drive and in the teacher's download folder. */
+export function certificateUploadName(studentName: string, submittedAt = new Date()): string {
+  const safe = normaliseScientistName(studentName) || 'Saintis Air';
+  const stamp = submittedAt.toISOString().slice(0, 10);
+  return `Sijil - ${safe} - ${stamp}.png`;
+}
+
 export function buildQuizReport(
   run: QuizRun,
   studentName: string,
   completions: readonly StationCompletion[] = [],
   submittedAt = new Date(),
+  certificate: CertificateUpload | null = null,
 ): QuizReport {
   return {
     ...run,
@@ -167,6 +185,7 @@ export function buildQuizReport(
     studentName,
     answers: gradeAnswers(run.picks),
     journey: buildJourney(completions, run.finishedAt),
+    certificate,
   };
 }
 

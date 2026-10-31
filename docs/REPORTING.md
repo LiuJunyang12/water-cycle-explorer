@@ -2,17 +2,17 @@
 
 第 6 站结束、学生写下名字拿到证书的那一刻，站点会把这次答题的完整成绩单
 POST 到一个 **Google Apps Script 网站应用**；脚本把数据写进
-**Google 表格**（一行一个学生）并在 **Google Drive 文件夹**里存一份 JSON。
+**Google 表格**（一行一个学生）并在 **Google Drive 文件夹**里存一份**该学生的证书图片（PNG）**。
 整站仍然是纯静态站点（GitHub Pages 可部署），不需要服务器、不需要数据库费用，
 学生也不需要注册任何账号。
 
 ```
 浏览器（学生）
-   │  POST JSON（text/plain，无预检）
+   │  POST JSON（text/plain，无预检；内含证书 PNG 的 base64）
    ▼
 Apps Script Web App（部署在老师的 Google 账号下）
    ├─► Google 表格「Laporan」：一行一次答题，老师直接看表格 / 做图表
-   └─► Google Drive 文件夹：每人一份 <姓名>-<时间>.json，留档原始数据
+   └─► Google Drive 文件夹：每人一份 `Sijil - <姓名> - <日期>.png`，老师点开就是证书
 ```
 
 > **为什么不能只靠文件夹链接？**
@@ -64,6 +64,7 @@ const HEADERS = [
   'Tempoh pengembaraan (saat)',
   'Jawapan',
   'ID laporan',
+  'Sijil (pautan)',
 ];
 
 function doPost(e) {
@@ -102,6 +103,19 @@ function doPost(e) {
       })
       .join(' · ');
 
+    // The pupil's certificate goes into the folder as an image, so the teacher
+    // opens a certificate instead of reading raw code.
+    let certificateUrl = '';
+    const certificate = payload.certificate;
+    if (certificate && certificate.data) {
+      const blob = Utilities.newBlob(
+        Utilities.base64Decode(certificate.data),
+        certificate.mimeType || 'image/png',
+        certificateFileName_(payload, certificate),
+      );
+      certificateUrl = DriveApp.getFolderById(FOLDER_ID).createFile(blob).getUrl();
+    }
+
     sheet.appendRow([
       payload.submittedAt,
       payload.studentName,
@@ -117,13 +131,8 @@ function doPost(e) {
         : journey.journeySeconds,
       answers,
       payload.reportId,
+      certificateUrl,
     ]);
-
-    DriveApp.getFolderById(FOLDER_ID).createFile(
-      payload.studentName + ' - ' + payload.submittedAt + '.json',
-      JSON.stringify(payload, null, 2),
-      MimeType.PLAIN_TEXT,
-    );
 
     return json_({ ok: true });
   } catch (error) {
@@ -162,8 +171,35 @@ function ensureHeader_(spreadsheet) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
     sheet.setFrozenRows(1);
+    return sheet;
+  }
+  // Older sheets only had the first columns; keep the header in sync so a new
+  // column (like the certificate link) appears without the teacher editing it.
+  const row = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
+  if (row.join('|') !== HEADERS.join('|')) {
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
   }
   return sheet;
+}
+
+/** Drive-safe file name for the certificate image. */
+function certificateFileName_(payload, certificate) {
+  const fallback =
+    'Sijil - ' +
+    safeName_(payload.studentName) +
+    ' - ' +
+    new Date(payload.submittedAt).toISOString().slice(0, 10) +
+    '.png';
+  const wanted = certificate.fileName || fallback;
+  return /\.png$/i.test(wanted) ? wanted : wanted + '.png';
+}
+
+function safeName_(value) {
+  return String(value || 'Saintis Air')
+    .replace(/[\\/:*?"<>|]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 80);
 }
 
 function hasReport_(sheet, reportId) {
@@ -185,7 +221,7 @@ function json_(body) {
 ```
 
 > 只提供 `doPost`，没有 `doGet`：拿到网址的人只能**写**，读权限仍然只属于老师的
-> Google 账号（表格和 JSON 都在老师的 Drive 里）。
+> Google 账号（表格和证书图片都在老师的 Drive 里）。
 
 ## 3. 部署成网站应用
 
@@ -216,7 +252,7 @@ VITE_REPORT_ENDPOINT=https://script.google.com/macros/s/AKfycb.../exec
   **开始冒险的时间**、**整段冒险用时（秒）**、每题选项对错、报告 ID。
   可以直接排序 / 做数据透视表 / 用 `Skor` 列画分数分布；`Stesen selesai`
   列能一眼看出谁跳过了前面的站。
-- **Drive 文件夹**：每份 JSON 都保留原始字段（含题干预览、首答判定），
+- **Drive 文件夹**：每名学生一张证书图片（含姓名与分数），表格里的 `Sijil (pautan)` 列直接点开；
   需要复盘某个学生时打开它即可。
 
 ## 6. 数据字段（提交内容）

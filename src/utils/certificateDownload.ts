@@ -96,6 +96,16 @@ export async function certificatePngDataUrl(source: SVGSVGElement, scale = RASTE
 }
 
 /** Wraps a raster image into a single-page A4 landscape PDF. */
+/** Same raster, but as bare base64 so it can travel inside the JSON report. */
+export async function certificatePngBase64(
+  source: SVGSVGElement,
+  scale = RASTER_SCALE,
+): Promise<string> {
+  const dataUrl = await certificatePngDataUrl(source, scale);
+  const comma = dataUrl.indexOf(',');
+  return comma === -1 ? '' : dataUrl.slice(comma + 1);
+}
+
 export async function buildCertificatePdf(pngDataUrl: string): Promise<Blob> {
   const { jsPDF } = await import('jspdf');
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4', compress: true });

@@ -8,9 +8,15 @@ import {
   readStoredScientistName,
   storeScientistName,
 } from '../data/finale';
-import { buildQuizReport, sendReport, type QuizRun, type ReportDelivery } from '../data/reporting';
+import {
+  buildQuizReport,
+  certificateUploadName,
+  sendReport,
+  type QuizRun,
+  type ReportDelivery,
+} from '../data/reporting';
 import type { StationCompletion } from '../data/stations';
-import { downloadCertificate } from '../utils/certificateDownload';
+import { certificatePngBase64, downloadCertificate } from '../utils/certificateDownload';
 import './FinalePage.css';
 
 type FinalePhase = 'walking' | 'talking' | 'certificate';
@@ -76,17 +82,47 @@ export function FinalePage({ run = null, completions = [], onBackToMap }: Finale
     storeScientistName(clean);
     setIsNameDialogOpen(false);
     setPhase('certificate');
-
-    // One report per certificate: the teacher sees a single row per student run.
-    if (run && !reportSentRef.current) {
-      reportSentRef.current = true;
-      setReportState('sending');
-      void sendReport(buildQuizReport(run, clean, completions)).then(setReportState);
-    }
   };
 
-  const handleDownload = async () => {
-    if (!certificateRef.current) {
+  // The certificate only exists once it is on screen, so the report (which now
+  // carries the rendered certificate PNG) is sent from the certificate stage.
+  useEffect(() => {
+    if (phase !== 'certificate' || !run || reportSentRef.current) {
+      return;
+    }
+    reportSentRef.current = true;
+    setReportState('sending');
+
+    const timer = window.setTimeout(() => {
+      void (async () => {
+        let certificate = null;
+        if (certificateRef.current) {
+          try {
+            const data = await certificatePngBase64(certificateRef.current);
+            if (data) {
+              certificate = {
+                fileName: certificateUploadName(printedName, new Date()),
+                mimeType: 'image/png',
+                data,
+              };
+            }
+          } catch {
+            certificate = null;
+          }
+        }
+        try {
+          const report = buildQuizReport(run, printedName, completions, new Date(), certificate);
+          setReportState(await sendReport(report));
+        } catch {
+          setReportState('queued');
+        }
+      })();
+    }, 120);
+
+    return () => window.clearTimeout(timer);
+  }, [phase, run, printedName, completions]);
+
+  const handleDownload = async () => {    if (!certificateRef.current) {
       return;
     }
     setDownloadState('working');

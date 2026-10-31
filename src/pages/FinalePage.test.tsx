@@ -9,6 +9,7 @@ import { FinalePage } from './FinalePage';
 vi.mock('../utils/certificateDownload', () => ({
   downloadCertificate: vi.fn().mockResolvedValue(undefined),
   certificateFileName: (name: string) => `sijil-${name}.png`,
+  certificatePngBase64: vi.fn().mockResolvedValue('UE5H'),
 }));
 
 vi.mock('../data/reporting', async (importOriginal) => {
@@ -158,6 +159,7 @@ describe('FinalePage', () => {
     typeName('  Nur   Aisyah  ');
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: FINALE_TEXT.nameConfirm }));
+      await vi.advanceTimersByTimeAsync(200);
     });
 
     expect(sendReport).toHaveBeenCalledTimes(1);
@@ -165,6 +167,9 @@ describe('FinalePage', () => {
     expect(report.studentName).toBe('Nur Aisyah');
     expect(report.score).toBe(7);
     expect(report.answers).toHaveLength(8);
+    // The certificate rides along so Drive stores an image, not raw JSON.
+    expect(report.certificate?.data).toBe('UE5H');
+    expect(report.certificate?.fileName).toMatch(/^Sijil - Nur Aisyah - \d{4}-\d{2}-\d{2}\.png$/);
   });
 
   test('tells the student when the report only made it to the device', async () => {
@@ -175,6 +180,7 @@ describe('FinalePage', () => {
     typeName('Bala');
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: FINALE_TEXT.nameConfirm }));
+      await vi.advanceTimersByTimeAsync(200);
     });
 
     expect(screen.getByRole('status')).toHaveTextContent(FINALE_TEXT.reportQueued);
