@@ -110,8 +110,10 @@ describe('App navigation shell', () => {
     // The QR slot and the instructions are always shown…
     expect(within(dialog).getByTestId('feedback-qr')).toBeInTheDocument();
     expect(within(dialog).getAllByRole('listitem')).toHaveLength(3);
-    // …but no dead button is offered while the form link is still a placeholder.
-    expect(within(dialog).queryByRole('link')).toBeNull();
+    // …and the real form is one tap away, in a new tab.
+    const openForm = within(dialog).getByRole('link', { name: /Buka borang maklum balas/ });
+    expect(openForm).toHaveAttribute('href', 'https://forms.gle/r3EUwJfyLJai7b7u9');
+    expect(openForm).toHaveAttribute('target', '_blank');
   });
 
   test('Escape closes the open dialog', async () => {    const user = userEvent.setup();

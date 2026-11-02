@@ -14,7 +14,7 @@ import { BASE_URL } from '../config/baseUrl';
  * Until step 3 is done the dialog shows a "not ready yet" note instead of a button
  * that leads nowhere, so the site never pretends to work.
  */
-export const FEEDBACK_FORM_URL = 'https://forms.gle/GANTI-DENGAN-PAUTAN-ANDA';
+export const FEEDBACK_FORM_URL = 'https://forms.gle/r3EUwJfyLJai7b7u9';
 
 /** QR code image of the same form, saved by the project owner. */
 export const FEEDBACK_QR_IMAGE = `${BASE_URL}assets/images/feedback/qr-code.png`;

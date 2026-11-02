@@ -72,8 +72,12 @@ Dalam Google Form: **Hantar (Send)** → ikon pautan → salin pautan pendek `ht
 Buka `src/data/feedback.ts` dan gantikan nilai ini:
 
 ```ts
-export const FEEDBACK_FORM_URL = 'https://forms.gle/GANTI-DENGAN-PAUTAN-ANDA';
+export const FEEDBACK_FORM_URL = 'https://forms.gle/r3EUwJfyLJai7b7u9';
 ```
+
+> **Status (2026-11-02): sudah dipasang.** Pautan sebenar di atas sudah dimasukkan dan kod QR
+> disimpan di `public/assets/images/feedback/qr-code.png` (640 × 640, dengan zon senyap putih 8%).
+> Untuk menukar borang pada masa hadapan, hanya dua tempat ini perlu dikemas kini.
 
 Selepas pautan sebenar dimasukkan, butang **Buka borang maklum balas** akan muncul dan membuka borang dalam tab baharu. Selagi pautan masih contoh, dialog memaparkan butang `Pautan borang belum disediakan` (tidak aktif) supaya tiada butang yang membawa ke halaman kosong.
 

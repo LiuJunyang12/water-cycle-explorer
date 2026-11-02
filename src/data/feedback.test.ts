@@ -2,8 +2,13 @@ import { describe, expect, test } from 'vitest';
 import { FEEDBACK_FORM_URL, FEEDBACK_TEXT, isFeedbackFormReady } from './feedback';
 
 describe('feedback form configuration', () => {
-  test('the placeholder is not treated as a live form', () => {
-    expect(isFeedbackFormReady(FEEDBACK_FORM_URL)).toBe(false);
+  test('the shipped link is a live forms.gle link', () => {
+    expect(FEEDBACK_FORM_URL).toMatch(/^https:\/\/forms\.gle\/\S+$/);
+    expect(isFeedbackFormReady(FEEDBACK_FORM_URL)).toBe(true);
+  });
+
+  test('a leftover placeholder is never treated as a live form', () => {
+    expect(isFeedbackFormReady('https://forms.gle/GANTI-DENGAN-PAUTAN-ANDA')).toBe(false);
   });
 
   test('accepts a forms.gle short link', () => {
