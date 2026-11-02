@@ -143,9 +143,13 @@ def build(input_path: Path, output_path: Path) -> tuple[int, int]:
 
         numbered = re.match(r"^(\d+)\.\s+(.*)$", stripped)
         if numbered:
-            para = doc.add_paragraph(style="List Number")
+            # Manual numbering keeps every list starting at 1 instead of
+            # continuing the document-wide auto-numbering sequence.
+            para = doc.add_paragraph()
             para.paragraph_format.space_after = Pt(2)
-            add_rich_text(para, numbered.group(2))
+            para.paragraph_format.left_indent = Cm(0.6)
+            para.paragraph_format.first_line_indent = Cm(-0.6)
+            add_rich_text(para, f"{numbered.group(1)}. {numbered.group(2)}")
             i += 1
             continue
 
