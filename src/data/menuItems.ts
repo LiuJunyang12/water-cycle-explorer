@@ -3,7 +3,7 @@
  * Labels are shown to pupils exactly as requested by the project owner.
  */
 
-export type MenuSectionId = 'student' | 'ebook' | 'objectives';
+export type MenuSectionId = 'student' | 'ebook' | 'objectives' | 'feedback';
 
 export interface MenuItem {
   id: MenuSectionId;
@@ -26,5 +26,10 @@ export const MENU_ITEMS: MenuItem[] = [
     id: 'objectives',
     label: 'OBJEKTIF',
     description: 'Objektif pembelajaran RPH',
+  },
+  {
+    id: 'feedback',
+    label: 'MAKLUM BALAS',
+    description: 'Beri pendapat tentang laman ini',
   },
 ];

@@ -1,0 +1,82 @@
+/* Feedback dialog: QR code card + call-to-action + short instructions. */
+
+.feedback-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-3) auto var(--space-4);
+  padding: clamp(var(--space-3), 3vw, var(--space-5)) clamp(var(--space-4), 5vw, var(--space-6));
+  max-width: 360px;
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 0 0 2px rgba(103, 185, 113, 0.28),
+    0 14px 30px rgba(36, 69, 43, 0.12);
+}
+
+.feedback-qr__image {
+  width: clamp(160px, 42vw, 216px);
+  height: auto;
+  border-radius: var(--radius-sm);
+  background-color: #ffffff;
+}
+
+/* Shown when the QR image is missing: an honest placeholder, never a broken icon. */
+.feedback-qr__placeholder {
+  display: grid;
+  place-items: center;
+  width: clamp(160px, 42vw, 216px);
+  aspect-ratio: 1;
+  margin: 0;
+  padding: var(--space-3);
+  border: 2px dashed rgba(36, 69, 43, 0.28);
+  border-radius: var(--radius-md);
+  color: rgba(36, 69, 43, 0.72);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.feedback-qr__hint {
+  margin: 0;
+  max-width: 30ch;
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+  color: var(--color-text);
+  text-align: center;
+  opacity: 0.82;
+}
+
+.feedback-open {
+  display: block;
+  width: min(100%, 360px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.feedback-steps {
+  margin: var(--space-4) auto 0;
+  padding-left: 1.25rem;
+  max-width: 44ch;
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.feedback-steps li::marker {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .feedback-qr {
+    padding: var(--space-3);
+  }
+
+  .feedback-steps {
+    font-size: var(--font-size-xs);
+  }
+}

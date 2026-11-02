@@ -30,7 +30,7 @@ describe('App navigation shell', () => {
     expect(screen.getByRole('heading', { name: 'PETA PENGEMBARAAN' })).toBeInTheDocument();
   });
 
-  test('menu drawer lists the three entries and opens the student profile dialog', async () => {
+  test('menu drawer lists the four entries and opens the student profile dialog', async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -40,6 +40,7 @@ describe('App navigation shell', () => {
     expect(within(drawer).getByRole('button', { name: /MAKLUMAT PELAJAR/ })).toBeInTheDocument();
     expect(within(drawer).getByRole('button', { name: /OFFLINE E-BOOK/ })).toBeInTheDocument();
     expect(within(drawer).getByRole('button', { name: /OBJEKTIF/ })).toBeInTheDocument();
+    expect(within(drawer).getByRole('button', { name: /MAKLUM BALAS/ })).toBeInTheDocument();
 
     await user.click(within(drawer).getByRole('button', { name: /MAKLUMAT PELAJAR/ }));
 
@@ -98,8 +99,22 @@ describe('App navigation shell', () => {
     expect(within(ebookDialog).queryByText(/belum tersedia/i)).not.toBeInTheDocument();
   });
 
-  test('Escape closes the open dialog', async () => {
+  test('the feedback entry opens the QR dialog from the menu', async () => {
     const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Buka menu' }));
+    await user.click(screen.getByRole('button', { name: /MAKLUM BALAS/ }));
+
+    const dialog = screen.getByRole('dialog', { name: 'MAKLUM BALAS' });
+    // The QR slot and the instructions are always shown…
+    expect(within(dialog).getByTestId('feedback-qr')).toBeInTheDocument();
+    expect(within(dialog).getAllByRole('listitem')).toHaveLength(3);
+    // …but no dead button is offered while the form link is still a placeholder.
+    expect(within(dialog).queryByRole('link')).toBeNull();
+  });
+
+  test('Escape closes the open dialog', async () => {    const user = userEvent.setup();
     render(<App />);
 
     await user.click(screen.getByRole('button', { name: 'Buka menu' }));

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { MusicPlayer } from './components/audio/MusicPlayer';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { PagePlaceholder } from './components/common/PagePlaceholder';
+import { FeedbackDialog } from './components/feedback/FeedbackDialog';
 import { OfflineEbookDialog, ObjectivesDialog, StudentProfileDialog } from './components/home/InfoDialogs';
 import { MenuButton } from './components/navigation/MenuButton';
 import { MenuDrawer } from './components/navigation/MenuDrawer';
@@ -177,6 +178,7 @@ export default function App() {
       <StudentProfileDialog isOpen={activeSection === 'student'} onClose={() => setActiveSection(null)} />
       <OfflineEbookDialog isOpen={activeSection === 'ebook'} onClose={() => setActiveSection(null)} />
       <ObjectivesDialog isOpen={activeSection === 'objectives'} onClose={() => setActiveSection(null)} />
+      <FeedbackDialog isOpen={activeSection === 'feedback'} onClose={() => setActiveSection(null)} />
     </div>
   );
 }
